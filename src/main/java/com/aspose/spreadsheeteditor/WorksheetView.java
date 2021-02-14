@@ -112,7 +112,7 @@ public class WorksheetView implements Serializable {
         }
 
         c.setStyle(s);
-        PrimeFaces.current().update(currentCellClientId);
+        PrimeFaces.current().ajax().update(currentCellClientId);
         purge();
     }
 
@@ -312,7 +312,7 @@ public class WorksheetView implements Serializable {
 
         getAsposeWorksheet().getCells().clearFormats(currentRowId, currentColumnId, currentRowId, currentColumnId);
         reloadCell(currentColumnId, currentRowId);
-        PrimeFaces.current().update(currentCellClientId);
+        PrimeFaces.current().ajax().update(currentCellClientId);
     }
 
     public void clearCurrentCellContents() {
@@ -322,7 +322,7 @@ public class WorksheetView implements Serializable {
 
         getAsposeWorksheet().getCells().clearContents(currentRowId, currentColumnId, currentRowId, currentColumnId);
         reloadCell(currentColumnId, currentRowId);
-        PrimeFaces.current().update(currentCellClientId);
+        PrimeFaces.current().ajax().update(currentCellClientId);
     }
 
     public void clearCurrentCell() {
@@ -332,7 +332,7 @@ public class WorksheetView implements Serializable {
 
         getAsposeWorksheet().getCells().clearRange(currentRowId, currentColumnId, currentRowId, currentColumnId);
         reloadCell(currentColumnId, currentRowId);
-        PrimeFaces.current().update(currentCellClientId);
+        PrimeFaces.current().ajax().update(currentCellClientId);
     }
 
     public int getCurrentColumnWidth() {
@@ -346,7 +346,7 @@ public class WorksheetView implements Serializable {
 
         getAsposeWorksheet().getCells().setColumnWidthPixel(currentColumnId, width);
         reloadColumnWidth(currentColumnId);
-        PrimeFaces.current().update("sheet");
+        PrimeFaces.current().ajax().update("sheet");
 
     }
 
@@ -361,7 +361,7 @@ public class WorksheetView implements Serializable {
 
         getAsposeWorksheet().getCells().setRowHeightPixel(currentRowId, height);
         reloadRowHeight(currentRowId);
-        PrimeFaces.current().update("sheet");
+        PrimeFaces.current().ajax().update("sheet");
     }
 
     public List<String> getFonts() {
@@ -375,7 +375,7 @@ public class WorksheetView implements Serializable {
     public void updatePartialView() {
         String id = getFacesContext().getExternalContext().getRequestParameterMap().get("id");
         if (id != null) {
-            PrimeFaces.current().update(id);
+            PrimeFaces.current().ajax().update(id);
         }
     }
 
