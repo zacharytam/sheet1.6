@@ -1,44 +1,42 @@
 package com.aspose.spreadsheeteditor;
 
-import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
+import com.aspose.cells.CellsException;
+import com.aspose.cells.License;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.logging.Logger;
 
-@FacesConverter("cellEditorConverter")
-public class CellConverter implements Converter {
+/**
+ *
+ * @author Saqib Masood
+ */
+public class AsposeLicense {
 
-    @Inject
-    private WorkbookService workbook;
+    private static final Logger LOGGER = Logger.getLogger(AsposeLicense.class.getName());
 
-    @Inject
-    private CellsService cells;
+    public static final String FILE_NAME = "Aspose.Total.Java.lic";
 
-    @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        int columnId = (Integer) ((ValueExpression) component.getPassThroughAttributes().get("data-columnId")).getValue(context.getELContext());
-        int rowId = (Integer) ((ValueExpression) component.getPassThroughAttributes().get("data-rowId")).getValue(context.getELContext());
-
-        Cell cell = cells.getCell(workbook.getCurrent(), columnId, rowId);
-        if (value.trim().startsWith("=")) {
-            cell.setFormula(value.trim());
-        } else {
-            cell.setValue(value);
-        }
-
-        return cell;
+    private AsposeLicense() {
     }
 
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        Cell cell = (Cell) value;
+    public static void load() {
+        Date expiry = License.getSubscriptionExpireDate();
 
-        if (cell.getFormula() != null) {
-            return cell.getFormula();
-        } else {
-            return cell.getValue();
+        if (expiry != null) {
+            LOGGER.info(String.format("Aspose License is valid upto: %s", License.getSubscriptionExpireDate()));
+        }
+    }
+
+    static {
+        try (InputStream i = AsposeLicense.class.getResourceAsStream(FILE_NAME)) {
+            new License().setLicense(i);
+        } catch (IOException x) {
+            LOGGER.severe("Error occured while loading license");
+            LOGGER.throwing(null, null, x);
+        } catch (CellsException x) {
+            LOGGER.severe("License error");
+            LOGGER.throwing(null, null, x);
         }
     }
 }
