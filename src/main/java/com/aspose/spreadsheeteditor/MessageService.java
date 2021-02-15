@@ -5,7 +5,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
