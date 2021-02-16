@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContextWrapper;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.ColumnResizeEvent;
+import org.primefaces.context.PrimeFacesContext;
 
 @Named(value = "worksheet")
 @ViewScoped
@@ -374,7 +375,7 @@ public class WorksheetView implements Serializable {
     }
 
     public void updatePartialView() {
-        String id = getExternalContext().getRequestParameterMap().get("id");
+        String id = FacesContextWrapper.getExternalContext().getRequestParameterMap().get("id");
         if (id != null) {
             PrimeFaces.current().ajax().update(id);
         }
